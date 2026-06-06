@@ -1,0 +1,36 @@
+# Leiningen
+target/
+classes/
+.lein-deps-sum
+.lein-failures
+.lein-plugins
+pom.xml
+pom.xml.asc
+
+# Clojure
+.cpcache/
+
+# IDE
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Misc
+*.swp
+*.swo
+*~
+.#*
+.nrepl-port
+.nrepl-history
+.rebel_readline_history

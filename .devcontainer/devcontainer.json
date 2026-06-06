@@ -1,0 +1,93 @@
+{
+  "name": "JVM Development",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "."
+  },
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "remoteUser": "root",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.extension-pack-for-java",
+        "vscjava.vscode-maven",
+        "vscjava.vscode-gradle",
+        "fwcd.kotlin",
+        "scalameta.metals",
+        "GitHub.copilot",
+        "ms-vscode-remote.vscode-remote-extensionpack",
+        "eamodio.gitlens",
+        "betterthantomorrow.calva",
+        "nocturn9x.arrange-it",
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-code-formatter",
+        "[java]": {
+          "editor.defaultFormatter": "redhat.java",
+          "editor.formatOnSave": true
+        },
+        "[kotlin]": {
+          "editor.formatOnSave": true
+        },
+        "[scala]": {
+          "editor.formatOnSave": true
+        },
+        "[clojure]": {
+          "editor.formatOnSave": true,
+          "editor.defaultFormatter": "betterthantomorrow.calva"
+        },
+        "java.home": "/usr/local/openjdk-21",
+        "java.configuration.runtimes": [
+          {
+            "name": "JavaSE-21",
+            "path": "/usr/local/openjdk-21",
+            "default": true
+          }
+        ]
+      }
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "installSSH": true
+    }
+  },
+  "postCreateCommand": "lein --version && java -version && mvn --version && gradle --version && kotlinc -version",
+  "forwardPorts": [3000, 8080, 8888, 8890, 9000, 5005],
+  "portsAttributes": {
+    "3000": {
+      "label": "Application",
+      "onAutoForward": "notify"
+    },
+    "8080": {
+      "label": "HTTP Server",
+      "onAutoForward": "notify"
+    },
+
+    "8888": {
+      "label": "Local Dev Server",
+      "onAutoForward": "notify"
+    },
+    "8890": {
+      "label": "REPL",
+      "onAutoForward": "notify"
+    }
+    "9000": {
+      "label": "SonarQube",
+      "onAutoForward": "notify"
+    },
+    "5005": {
+      "label": "Debug Port",
+      "onAutoForward": "notify"
+    }
+  },
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.m2,target=/root/.m2,type=bind,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gradle,target=/root/.gradle,type=bind,consistency=cached",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.sbt,target=/root/.sbt,type=bind,consistency=cached"
+  ]
+}
