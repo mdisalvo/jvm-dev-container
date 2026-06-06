@@ -20,6 +20,17 @@ A complete VS Code dev container setup for JVM development with Java 21, Maven, 
 
 Choose your language and build tool:
 
+**Leiningen + Clojure:**
+```bash
+lein new app my-clojure-app
+cd my-clojure-app
+lein repl
+```
+
+Then use **Calva** (the Clojure extension) to connect to the running REPL:
+- Press `Ctrl+Alt+C` then `Ctrl+Alt+C` to connect
+- Select the running REPL session
+
 **Maven + Java:**
 ```bash
 mvn archetype:generate -DgroupId=com.example -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
@@ -50,6 +61,9 @@ sbt new scala/scala-seed.g8
 ## What's Included
 
 - **Java 21 LTS** - Latest stable Java version
+- **Leiningen 2.10.0** - Clojure project management tool
+- **Calva** - Best-in-class Clojure development extension for VS Code
+- **Paredit** - Structural editing for Clojure code
 - **Maven 3.9.6** - Build automation and dependency management
 - **Gradle 8.5** - Advanced build automation with Kotlin DSL support
 - **SBT 1.9.7** - Scala build tool
@@ -67,12 +81,15 @@ The container forwards these ports for convenient access:
 - **5005** - Java remote debug port
 - **8080** - HTTP server (e.g., Tomcat, Spring Boot)
 - **8888** - Local development server
+- **8890** - REPL communication
 - **9000** - SonarQube or other analysis tools
 
 ## VS Code Extensions
 
 Automatically installed:
 - **Extension Pack for Java** - Java IDE with debugging and testing
+- **Calva** - Clojure IDE
+- **Arrange It** - Code formatting
 - **Maven for Java** - Maven support in VS Code
 - **Gradle for Java** - Gradle build support
 - **Kotlin Language** - Kotlin support and debugger
@@ -85,10 +102,20 @@ Automatically installed:
 ### Verify Installation
 ```bash
 java -version
+lein --version
 mvn --version
 gradle --version
 sbt --version
 kotlinc -version
+```
+
+### Leiningen
+```bash
+lein new app project-name
+lein test
+lein uberjar
+lein repl
+lein clean
 ```
 
 ### Maven
@@ -179,6 +206,9 @@ Edit `forwardPorts` in `devcontainer.json`:
 ## Resources
 
 - [Java Official Documentation](https://docs.oracle.com/en/java/)
+- [Calva Documentation](https://calva.io/)
+- [Leiningen Documentation](https://leiningen.org/)
+- [Clojure Official Site](https://clojure.org/)
 - [Maven Documentation](https://maven.apache.org/guides/index.html)
 - [Gradle Documentation](https://docs.gradle.org/)
 - [Kotlin Official Site](https://kotlinlang.org/)
