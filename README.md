@@ -97,6 +97,12 @@ Automatically installed:
 - **GitHub Copilot** - AI assistance (optional, requires GitHub account)
 - **GitLens** - Git history and blame visualization
 
+## Quick Start Script
+View the [Quick Start guide](QUICK_START.md)
+This provides a script to bootstrap your repo
+- Give it a GitHub repository reference
+- It will then clone the repo and copy these files into it directly
+
 ## Useful Commands
 
 ### Verify Installation
