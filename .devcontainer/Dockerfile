@@ -1,5 +1,5 @@
 # Use official Java 21 image as base
-FROM eclipse-temurin:21-jdk-jammy
+FROM eclipse-temurin:25-jdk-jammy
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
