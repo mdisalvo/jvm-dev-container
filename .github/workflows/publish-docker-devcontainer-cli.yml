@@ -1,8 +1,10 @@
 name: Build and Publish Docker Image (devcontainer-cli)
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*.*.*'
+      - 'v*.*'
   workflow_dispatch:
     inputs:
       tag:
@@ -38,8 +40,10 @@ jobs:
       - name: Extract version and set tags
         id: meta
         run: |
-          if [[ "${{ github.event_name }}" == "release" ]]; then
-            VERSION=${{ github.event.release.tag_name }}
+          if [[ "${{ github.event_name }}" == "push" ]]; then
+            # Extract version from tag ref (e.g., refs/tags/v1.0.0 -> 1.0.0)
+            VERSION=${{ github.ref }}
+            VERSION=${VERSION#refs/tags/}
             # Remove 'v' prefix if present
             VERSION=${VERSION#v}
           else
@@ -103,78 +107,6 @@ jobs:
         run: |
           docker rmi ${{ steps.meta.outputs.version_tag }}-amd64 || true
           docker rmi ${{ steps.meta.outputs.version_tag }}-arm64 || true
-
-      - name: Create release notes
-        if: github.event_name == 'release'
-        run: |
-          cat > /tmp/docker-notes.md << EOF
-          ## Docker Image Published 🐳
-
-          **Image:** \`${REGISTRY}/${IMAGE_NAME}\`
-
-          **Available Tags:**
-          - \`${{ steps.meta.outputs.version }}\` - Version-specific tag
-          - \`latest\` - Latest release
-
-          **Supported Architectures:**
-          - linux/amd64 (x86_64)
-          - linux/arm64 (Apple Silicon, ARM servers)
-
-          **Pull commands:**
-          \`\`\`bash
-          # Specific version (recommended for production)
-          docker pull ${REGISTRY}/${IMAGE_NAME}:${{ steps.meta.outputs.version }}
-
-          # Latest version
-          docker pull ${REGISTRY}/${IMAGE_NAME}:latest
-          \`\`\`
-
-          **Run the container:**
-          \`\`\`bash
-          docker run -it --rm \\
-            -v \$(pwd):/workspace \\
-            ${REGISTRY}/${IMAGE_NAME}:${{ steps.meta.outputs.version }}
-          \`\`\`
-
-          **Docker Compose example:**
-          \`\`\`yaml
-          version: '3.8'
-          services:
-            jvm-dev:
-              image: ${REGISTRY}/${IMAGE_NAME}:${{ steps.meta.outputs.version }}
-              volumes:
-                - .:/workspace
-              working_dir: /workspace
-              stdin_open: true
-              tty: true
-          \`\`\`
-
-          **Included tools:**
-          - Java 21 LTS
-          - Leiningen 2.12.0
-          - Maven 3.9.6
-          - Gradle 8.5
-          - SBT 1.9.7
-          - Kotlin 1.9.21
-          - Git & GitHub CLI
-
-          **Built with:** devcontainer-cli
-          EOF
-          cat /tmp/docker-notes.md
-
-      - name: Comment on release
-        if: github.event_name == 'release'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const fs = require('fs');
-            const notes = fs.readFileSync('/tmp/docker-notes.md', 'utf8');
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: notes
-            });
 
       - name: Summary
         run: |

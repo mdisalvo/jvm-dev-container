@@ -28,23 +28,29 @@ cp .github/workflows/publish-docker-devcontainer-cli.yml .github/workflows/
 ### 3. Push to GitHub
 
 ```bash
-git add .github/workflows/publish-docker.yml
+git add .github/workflows/
 git commit -m "Add Docker Hub publishing workflow"
 git push
 ```
 
-### 4. Create a Release
+### 4. Create and Push a Version Tag
 
 ```bash
+# Create a version tag (v1.0.0, v1.0, etc.)
 git tag v1.0.0
 git push origin v1.0.0
 ```
 
-Or use GitHub UI: **Releases → New release → Publish release**
+Workflow **automatically triggers** on tag push!
 
 ### 5. Done! 🎉
 
-Workflow automatically builds and pushes to Docker Hub.
+Workflow automatically:
+- ✅ Detects tag push (v1.0.0)
+- ✅ Builds Docker image
+- ✅ Creates for amd64 & arm64
+- ✅ Pushes both tags to Docker Hub
+- ✅ Shows progress in Actions tab
 
 ---
 
@@ -114,19 +120,26 @@ docker run -it YOUR_USERNAME/jvm-devcontainer:v1.0.0 java -version
 git add .
 git commit -m "Your changes"
 
-# 2. Create a version tag
-git tag -a v1.0.0 -m "Release 1.0.0"
+# 2. Push a version tag (e.g., v1.0.0, v1.0.1)
+git tag v1.0.0
 git push origin v1.0.0
 
 # 3. GitHub Actions automatically:
+#    - Triggers on tag push
 #    - Builds Dockerfile for amd64 and arm64
 #    - Pushes to Docker Hub with tags:
 #      - your_username/jvm-devcontainer:1.0.0
 #      - your_username/jvm-devcontainer:latest
-#    - Comments on release with Docker pull commands
+#    - Monitor in Actions tab
 
 # Done! Your image is published.
 ```
+
+**Supported tag patterns:**
+- `v1.0.0` ✅
+- `v2.1` ✅
+- `v1.0.0-beta` ❌ (requires pattern modification)
+- `1.0.0` ❌ (requires pattern modification)
 
 ---
 

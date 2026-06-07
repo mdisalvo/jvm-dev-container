@@ -16,10 +16,11 @@
         "fwcd.kotlin",
         "scalameta.metals",
         "GitHub.copilot",
+        "github.vscode-github-actions",
         "ms-vscode-remote.vscode-remote-extensionpack",
         "eamodio.gitlens",
         "betterthantomorrow.calva",
-        "nocturn9x.arrange-it",
+        "nocturn9x.arrange-it"
       ],
       "settings": {
         "editor.formatOnSave": true,
@@ -75,7 +76,7 @@
     "8890": {
       "label": "REPL",
       "onAutoForward": "notify"
-    }
+    },
     "9000": {
       "label": "SonarQube",
       "onAutoForward": "notify"
