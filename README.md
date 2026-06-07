@@ -9,6 +9,17 @@ A complete VS Code dev container setup for JVM development with Java 21, Maven, 
 
 ## Getting Started
 
+### Quick Start Script
+View the [Quick Start guide](QUICK_START.md)
+This provides a script to bootstrap your repo
+- Give it a GitHub repository reference
+- It will then clone the repo and copy these files into it directly
+
+### On Dockerhub
+- Get the container from [michaeldisalvo/jvm-dev-container](https://hub.docker.com/repository/docker/michaeldisalvo/jvm-dev-container)
+- Or pull using `docker pull michaeldisalvo/jvm-dev-container:latest`
+
+
 ### 1. Open in Dev Container
 
 1. Clone or create your JVM project with this `.devcontainer` folder in the root
@@ -96,12 +107,6 @@ Automatically installed:
 - **Metals** - Scala IDE with LSP support
 - **GitHub Copilot** - AI assistance (optional, requires GitHub account)
 - **GitLens** - Git history and blame visualization
-
-## Quick Start Script
-View the [Quick Start guide](QUICK_START.md)
-This provides a script to bootstrap your repo
-- Give it a GitHub repository reference
-- It will then clone the repo and copy these files into it directly
 
 ## Useful Commands
 

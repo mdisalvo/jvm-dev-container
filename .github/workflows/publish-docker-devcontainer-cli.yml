@@ -1,0 +1,195 @@
+name: Build and Publish Docker Image (devcontainer-cli)
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Docker image tag (e.g., 1.0.0)'
+        required: true
+        type: string
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: ${{ secrets.DOCKER_HUB_USERNAME }}/jvm-devcontainer
+  DEVCONTAINER_CLI_VERSION: "0.56.0"  # Update to latest version as needed
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Extract version and set tags
+        id: meta
+        run: |
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            VERSION=${{ github.event.release.tag_name }}
+            # Remove 'v' prefix if present
+            VERSION=${VERSION#v}
+          else
+            VERSION=${{ github.event.inputs.tag }}
+          fi
+          
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "version_tag=${REGISTRY}/${IMAGE_NAME}:${VERSION}" >> $GITHUB_OUTPUT
+          echo "latest_tag=${REGISTRY}/${IMAGE_NAME}:latest" >> $GITHUB_OUTPUT
+
+      - name: Install devcontainer CLI
+        run: |
+          npm install -g @devcontainers/cli
+
+      - name: Verify devcontainer configuration
+        run: |
+          devcontainer read-configuration \
+            --workspace-folder . \
+            --log-level trace
+
+      - name: Build devcontainer image (amd64)
+        run: |
+          devcontainer build \
+            --workspace-folder . \
+            --image-name ${{ steps.meta.outputs.version_tag }}-amd64 \
+            --platform linux/amd64 \
+            --log-level trace
+
+      - name: Build devcontainer image (arm64)
+        run: |
+          devcontainer build \
+            --workspace-folder . \
+            --image-name ${{ steps.meta.outputs.version_tag }}-arm64 \
+            --platform linux/arm64 \
+            --log-level trace
+
+      - name: Push images and create manifest
+        run: |
+          set -e
+          
+          echo "🐳 Pushing amd64 image..."
+          docker push ${{ steps.meta.outputs.version_tag }}-amd64
+          
+          echo "🐳 Pushing arm64 image..."
+          docker push ${{ steps.meta.outputs.version_tag }}-arm64
+          
+          echo "📋 Creating manifest for version tag..."
+          docker manifest create ${{ steps.meta.outputs.version_tag }} \
+            --amend ${{ steps.meta.outputs.version_tag }}-amd64 \
+            --amend ${{ steps.meta.outputs.version_tag }}-arm64
+          docker manifest push ${{ steps.meta.outputs.version_tag }}
+          
+          echo "📋 Creating manifest for latest tag..."
+          docker manifest create ${{ steps.meta.outputs.latest_tag }} \
+            --amend ${{ steps.meta.outputs.version_tag }}-amd64 \
+            --amend ${{ steps.meta.outputs.version_tag }}-arm64
+          docker manifest push ${{ steps.meta.outputs.latest_tag }}
+
+      - name: Clean up local images
+        if: always()
+        run: |
+          docker rmi ${{ steps.meta.outputs.version_tag }}-amd64 || true
+          docker rmi ${{ steps.meta.outputs.version_tag }}-arm64 || true
+
+      - name: Create release notes
+        if: github.event_name == 'release'
+        run: |
+          cat > /tmp/docker-notes.md << EOF
+          ## Docker Image Published 🐳
+
+          **Image:** \`${REGISTRY}/${IMAGE_NAME}\`
+
+          **Available Tags:**
+          - \`${{ steps.meta.outputs.version }}\` - Version-specific tag
+          - \`latest\` - Latest release
+
+          **Supported Architectures:**
+          - linux/amd64 (x86_64)
+          - linux/arm64 (Apple Silicon, ARM servers)
+
+          **Pull commands:**
+          \`\`\`bash
+          # Specific version (recommended for production)
+          docker pull ${REGISTRY}/${IMAGE_NAME}:${{ steps.meta.outputs.version }}
+
+          # Latest version
+          docker pull ${REGISTRY}/${IMAGE_NAME}:latest
+          \`\`\`
+
+          **Run the container:**
+          \`\`\`bash
+          docker run -it --rm \\
+            -v \$(pwd):/workspace \\
+            ${REGISTRY}/${IMAGE_NAME}:${{ steps.meta.outputs.version }}
+          \`\`\`
+
+          **Docker Compose example:**
+          \`\`\`yaml
+          version: '3.8'
+          services:
+            jvm-dev:
+              image: ${REGISTRY}/${IMAGE_NAME}:${{ steps.meta.outputs.version }}
+              volumes:
+                - .:/workspace
+              working_dir: /workspace
+              stdin_open: true
+              tty: true
+          \`\`\`
+
+          **Included tools:**
+          - Java 21 LTS
+          - Leiningen 2.12.0
+          - Maven 3.9.6
+          - Gradle 8.5
+          - SBT 1.9.7
+          - Kotlin 1.9.21
+          - Git & GitHub CLI
+
+          **Built with:** devcontainer-cli
+          EOF
+          cat /tmp/docker-notes.md
+
+      - name: Comment on release
+        if: github.event_name == 'release'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const notes = fs.readFileSync('/tmp/docker-notes.md', 'utf8');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: notes
+            });
+
+      - name: Summary
+        run: |
+          echo "✅ Docker image built and published successfully!"
+          echo ""
+          echo "📋 Image Details:"
+          echo "  Registry: ${{ env.REGISTRY }}"
+          echo "  Image: ${{ env.IMAGE_NAME }}"
+          echo "  Version Tag: ${{ steps.meta.outputs.version_tag }}"
+          echo "  Latest Tag: ${{ steps.meta.outputs.latest_tag }}"
+          echo "  Platforms: linux/amd64, linux/arm64"
+          echo ""
+          echo "🐳 Pull commands:"
+          echo "  docker pull ${{ steps.meta.outputs.version_tag }}"
+          echo "  docker pull ${{ steps.meta.outputs.latest_tag }}"
+          echo ""
+          echo "📚 View on Docker Hub:"
+          echo "  https://hub.docker.com/r/${{ env.IMAGE_NAME }}"
