@@ -1,0 +1,121 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Maven dependencies (pom.xml)
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "michaeldisalvo"
+    assignees:
+      - "michaeldisalvo"
+    labels:
+      - "dependencies"
+      - "maven"
+    commit-message:
+      prefix: "build(deps):"
+      prefix-development: "build(deps-dev):"
+      include: "scope"
+    pull-request-branch-name:
+      separator: "/"
+    rebase-strategy: "auto"
+    allow:
+      - dependency-type: "all"
+
+  # Gradle dependencies (build.gradle, build.gradle.kts)
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "03:00"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "michaeldisalvo"
+    assignees:
+      - "michaeldisalvo"
+    labels:
+      - "dependencies"
+      - "gradle"
+    commit-message:
+      prefix: "build(deps):"
+      prefix-development: "build(deps-dev):"
+      include: "scope"
+    rebase-strategy: "auto"
+
+  # Docker images in Dockerfile
+  - package-ecosystem: "docker"
+    directory: ".devcontainer"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:00"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "michaeldisalvo"
+    labels:
+      - "dependencies"
+      - "docker"
+    commit-message:
+      prefix: "build(docker):"
+      include: "scope"
+    rebase-strategy: "auto"
+
+  # GitHub Actions workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "04:30"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "michaeldisalvo"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci:"
+      include: "scope"
+    rebase-strategy: "auto"
+
+  # npm/Node.js (if using Node.js tools)
+  # Uncomment if you have package.json files
+  # - package-ecosystem: "npm"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #     day: "monday"
+  #     time: "05:00"
+  #   open-pull-requests-limit: 5
+  #   reviewers:
+  #     - "michaeldisalvo"
+  #   labels:
+  #     - "dependencies"
+  #     - "npm"
+  #   commit-message:
+  #     prefix: "build(deps):"
+  #     include: "scope"
+
+  # Python dependencies (if using Python tools)
+  # Uncomment if you have requirements.txt or pyproject.toml
+  # - package-ecosystem: "pip"
+  #   directory: "/"
+  #   schedule:
+  #     interval: "weekly"
+  #     day: "monday"
+  #     time: "05:30"
+  #   open-pull-requests-limit: 5
+  #   reviewers:
+  #     - "michaeldisalvo"
+  #   labels:
+  #     - "dependencies"
+  #     - "pip"
