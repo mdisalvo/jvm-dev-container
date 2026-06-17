@@ -189,7 +189,7 @@ jar cf my-app.jar *.class
 ### Modify Java Version
 Edit the `FROM` line in `Dockerfile`:
 ```dockerfile
-FROM eclipse-temurin:21-jdk-jammy  # Change 21 to 17, 11, etc.
+FROM eclipse-temurin:25-jdk-jammy  # Change 25 to 17, 11, etc.
 ```
 
 ### Remove Unnecessary Tools
