@@ -72,14 +72,9 @@ sbt new scala/scala-seed.g8
 ## What's Included
 
 - **Java 25 LTS** - Latest stable Java version
-- **Leiningen 2.10.0** - Clojure project management tool
-- **Calva** - Best-in-class Clojure development extension for VS Code
-- **Paredit** - Structural editing for Clojure code
-- **Maven 3.9.6** - Build automation and dependency management
-- **Gradle 8.5** - Advanced build automation with Kotlin DSL support
-- **SBT 1.9.7** - Scala build tool
-- **Kotlin 2.3.21** - First-class Kotlin support
-- **Git & GitHub CLI** - Version control tools
+**Maven 3.9.16** - Build automation and dependency management
+**Gradle 9.5.1** - Advanced build automation with Kotlin DSL support
+**SBT 1.12.12** - Scala build tool
 - **Extension Pack for Java** - Full Java IDE support
 - **Maven cache mount** - Persistent `.m2` cache
 - **Gradle cache mount** - Persistent `.gradle` cache

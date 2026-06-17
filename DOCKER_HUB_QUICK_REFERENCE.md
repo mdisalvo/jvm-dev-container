@@ -160,11 +160,11 @@ docker pull your_username/jvm-devcontainer:latest
 
 ## What's In The Image
 
-✅ Java 21 LTS  
-✅ Maven 3.9.6  
-✅ Gradle 8.5  
-✅ SBT 1.9.7  
-✅ Kotlin 1.9.21  
+✅ Java 25 LTS  
+✅ Maven 3.9.16  
+✅ Gradle 9.5.1  
+✅ SBT 1.12.12  
+✅ Kotlin 2.3.21  
 ✅ Git & GitHub CLI  
 
 ---
