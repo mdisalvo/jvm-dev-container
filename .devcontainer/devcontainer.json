@@ -39,11 +39,11 @@
           "editor.formatOnSave": true,
           "editor.defaultFormatter": "betterthantomorrow.calva"
         },
-        "java.home": "/usr/local/openjdk-21",
+        "java.home": "/opt/java/openjdk",
         "java.configuration.runtimes": [
           {
             "name": "JavaSE-21",
-            "path": "/usr/local/openjdk-21",
+            "path": "/opt/java/openjdk",
             "default": true
           }
         ]
