@@ -1,6 +1,6 @@
 # All-Purpose JVM VS Code Dev Container
 
-A complete VS Code dev container setup for JVM development with Java 21, Maven, Gradle, SBT, and Kotlin.
+A complete VS Code dev container setup for JVM development with Java 25, Maven, Gradle, SBT, and Kotlin.
 
 ## Prerequisites
 
@@ -71,14 +71,14 @@ sbt new scala/scala-seed.g8
 
 ## What's Included
 
-- **Java 21 LTS** - Latest stable Java version
+- **Java 25 LTS** - Latest stable Java version
 - **Leiningen 2.10.0** - Clojure project management tool
 - **Calva** - Best-in-class Clojure development extension for VS Code
 - **Paredit** - Structural editing for Clojure code
-- **Maven 3.9.6** - Build automation and dependency management
-- **Gradle 8.5** - Advanced build automation with Kotlin DSL support
-- **SBT 1.9.7** - Scala build tool
-- **Kotlin 1.9.21** - First-class Kotlin support
+- **Maven 3.9.8** - Build automation and dependency management
+- **Gradle 8.9** - Advanced build automation with Kotlin DSL support
+- **SBT 1.10.1** - Scala build tool
+- **Kotlin 2.3.21** - First-class Kotlin support
 - **Git & GitHub CLI** - Version control tools
 - **Extension Pack for Java** - Full Java IDE support
 - **Maven cache mount** - Persistent `.m2` cache
