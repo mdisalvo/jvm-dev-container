@@ -75,9 +75,9 @@ sbt new scala/scala-seed.g8
 - **Leiningen 2.10.0** - Clojure project management tool
 - **Calva** - Best-in-class Clojure development extension for VS Code
 - **Paredit** - Structural editing for Clojure code
-- **Maven 3.9.6** - Build automation and dependency management
-- **Gradle 8.5** - Advanced build automation with Kotlin DSL support
-- **SBT 1.9.7** - Scala build tool
+- **Maven 3.9.8** - Build automation and dependency management
+- **Gradle 8.9** - Advanced build automation with Kotlin DSL support
+- **SBT 1.10.1** - Scala build tool
 - **Kotlin 2.3.21** - First-class Kotlin support
 - **Git & GitHub CLI** - Version control tools
 - **Extension Pack for Java** - Full Java IDE support

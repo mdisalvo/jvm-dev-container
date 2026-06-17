@@ -133,11 +133,11 @@ cloned-repo/
 
 ### Dockerfile Includes
 
-- **Java 21 LTS**
-- **Maven 3.9.6** - Classical build tool
-- **Gradle 8.5** - Modern build system
-- **SBT 1.9.7** - Scala Build Tool
-- **Kotlin 1.9.21** - Kotlin compiler and REPL
+- **Java 25 LTS**
+- **Maven 3.9.8** - Classical build tool
+- **Gradle 8.9** - Modern build system
+- **SBT 1.10.1** - Scala Build Tool
+- **Kotlin 2.3.21** - Kotlin compiler and REPL
 - **Git** - Version control
 - **Common utilities** - curl, wget, vim, nano, htop
 

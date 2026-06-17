@@ -14,7 +14,7 @@ code .
 # Press Ctrl+Shift+P → "Dev Containers: Reopen in Container"
 
 # Done! Now you have:
-# - Java 21, Maven, Gradle, SBT, Kotlin
+# - Java 25, Maven, Gradle, SBT, Kotlin
 # - VS Code Java extensions
 # - Ready to build and run
 ```
