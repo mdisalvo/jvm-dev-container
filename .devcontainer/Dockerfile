@@ -48,7 +48,7 @@ RUN mkdir -p /opt/sbt && \
 
 # Install Kotlin
 RUN mkdir -p /opt/kotlin && \
-    wget -q https://github.com/JetBrains/kotlin/releases/download/v1.9.21/kotlin-compiler-1.9.21.zip -O /tmp/kotlin.zip && \
+    wget -q https://github.com/JetBrains/kotlin/releases/download/v2.3.21/kotlin-compiler-2.3.21.zip -O /tmp/kotlin.zip && \
     unzip -q /tmp/kotlin.zip -d /opt/kotlin && \
     rm /tmp/kotlin.zip && \
     /opt/kotlin/kotlinc/bin/kotlinc -version
